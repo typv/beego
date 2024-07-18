@@ -1,0 +1,7 @@
+.env
+vendor/
+.docker/
+tmp/
+.idea
+
+work
