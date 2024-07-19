@@ -3,6 +3,7 @@ package main
 import (
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"log"
 	"src/helpers"
 	_ "src/routers"
