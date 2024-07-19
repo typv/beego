@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/joho/godotenv"
 	"log"
@@ -18,7 +17,6 @@ func main() {
 
 	port := helpers.GetEnv("APP_PORT", "8080")
 	portInt, _ := strconv.Atoi(port)
-	fmt.Println(portInt)
 	beego.BConfig.Listen.HTTPPort = portInt
 
 	beego.Run()

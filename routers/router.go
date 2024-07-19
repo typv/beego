@@ -1,10 +1,18 @@
 package routers
 
 import (
-	beego "github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/server/web"
 	"src/controllers"
 )
 
 func init() {
-	beego.Router("/", &controllers.MainController{})
+	web.Router("/", &controllers.MainController{})
+
+	ns := web.NewNamespace("/v1",
+		web.NSNamespace("/user",
+			web.NSRouter("/", &controllers.UserController{}, "get:GetHello"),
+		),
+	)
+
+	web.AddNamespace(ns)
 }
