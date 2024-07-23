@@ -9,8 +9,9 @@ func init() {
 	web.Router("/", &controllers.MainController{})
 
 	ns := web.NewNamespace("/v1",
-		web.NSNamespace("/user",
-			web.NSRouter("/", &controllers.UserController{}, "get:GetHello"),
+		web.NSNamespace("/users",
+			web.NSRouter("/", &controllers.UserController{}, "get:GetUsers"),
+			web.NSRouter("/detail", &controllers.UserController{}, "get:GetUser"),
 		),
 	)
 

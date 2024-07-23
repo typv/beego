@@ -5,6 +5,7 @@ import (
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"log"
+	_ "src/database"
 	"src/helpers"
 	_ "src/routers"
 	"strconv"

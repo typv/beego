@@ -1,9 +1,14 @@
 package helpers
 
-import "os"
+import (
+	"github.com/joho/godotenv"
+	"os"
+)
 
 func GetEnv(envKey string, defaultValue string) string {
-	val := os.Getenv("APP_PORT")
+	godotenv.Load()
+
+	val := os.Getenv(envKey)
 	if val == "" {
 		val = defaultValue
 	}
