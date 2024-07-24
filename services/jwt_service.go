@@ -4,12 +4,13 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
 	"src/config"
+	"src/ultils"
 	"strconv"
 	"time"
 )
 
 type IJwtService interface {
-	Sign(token string) (*jwt.Token, error)
+	Sign(token string) (*jwt.Token, error, ultils.AuthUser)
 	Claims(data map[string]interface{}) (string, error)
 }
 
@@ -31,15 +32,16 @@ func NewJwtService() IJwtService {
 	return &JwtService{}
 }
 
-func (this *JwtService) Sign(token string) (*jwt.Token, error) {
-	singedToken, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+func (this *JwtService) Sign(token string) (*jwt.Token, error, ultils.AuthUser) {
+	var authUser ultils.AuthUser
+	singedToken, err := jwt.ParseWithClaims(token, &authUser, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, http.ErrAbortHandler
 		}
 		return jwtSecret, nil
 	})
 
-	return singedToken, err
+	return singedToken, err, authUser
 }
 
 func (this *JwtService) Claims(data map[string]interface{}) (string, error) {

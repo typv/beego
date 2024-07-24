@@ -10,6 +10,10 @@ type UserController struct {
 }
 
 func (this *UserController) GetUsers() {
+	//Get auth user
+	//authUser := this.Ctx.Input.GetData("authUser").(ultils.AuthUser)
+	//fmt.Println(authUser.Email)
+
 	var users []models.User
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(models.User))

@@ -4,12 +4,8 @@ import (
 	"github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/context"
 	"net/http"
+	"src/ultils"
 )
-
-type PanicError struct {
-	Message string
-	Code    any
-}
 
 func init() {
 	web.BConfig.RecoverPanic = true
@@ -23,7 +19,7 @@ func init() {
 				errMsg = e
 			case error:
 				errMsg = e.Error()
-			case PanicError:
+			case ultils.PanicError:
 				errMsg = e.Message
 				errCode, _ = e.Code.(int)
 			default:
