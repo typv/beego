@@ -1,11 +1,12 @@
 package main
 
 import (
-	beego "github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/server/web"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"log"
 	_ "src/database"
+	_ "src/exceptions"
 	"src/helpers"
 	_ "src/routers"
 	"strconv"
@@ -19,7 +20,7 @@ func main() {
 
 	port := helpers.GetEnv("APP_PORT", "8080")
 	portInt, _ := strconv.Atoi(port)
-	beego.BConfig.Listen.HTTPPort = portInt
+	web.BConfig.Listen.HTTPPort = portInt
 
-	beego.Run()
+	web.Run()
 }

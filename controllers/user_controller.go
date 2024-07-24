@@ -10,20 +10,20 @@ type UserController struct {
 	BaseController
 }
 
-func (c *UserController) GetUser() {
+func (this *UserController) GetUser() {
 	o := orm.NewOrm()
 	u := &models.User{ID: 1}
 	err := o.Read(u)
 	if err != nil {
-		c.ResponseErr(http.StatusBadRequest, "User not found")
+		this.ResponseErr(http.StatusBadRequest, "User not found")
 		return
 	}
 	o.LoadRelated(u, "Department")
 
-	c.ResponseOk(u)
+	this.ResponseOk(u)
 }
 
-func (c *UserController) GetUsers() {
+func (this *UserController) GetUsers() {
 	var users []models.User
 	o := orm.NewOrm()
 	qs := o.QueryTable(new(models.User))
@@ -33,9 +33,9 @@ func (c *UserController) GetUsers() {
 		Filter("id", 1).
 		All(&users, "ID", "Name", "Email")
 	if err != nil {
-		c.ResponseErr(http.StatusInternalServerError, "Internal server error")
+		this.ResponseErr(http.StatusInternalServerError, "Internal server error")
 		return
 	}
 
-	c.ResponseOk(users)
+	this.ResponseOk(users)
 }

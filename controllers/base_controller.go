@@ -19,25 +19,25 @@ type BaseController struct {
 	web.Controller
 }
 
-func (c *BaseController) ResponseErr(code int, message string) {
-	c.Ctx.Output.SetStatus(code)
-	c.Ctx.Output.Header("Content-Type", "application/json")
+func (this *BaseController) ResponseErr(code int, message string) {
+	this.Ctx.Output.SetStatus(code)
+	this.Ctx.Output.Header("Content-Type", "application/json")
 	response := ErrorResponse{
 		Code:    code,
 		Message: message,
 	}
-	c.Data["json"] = response
-	c.ServeJSON()
+	this.Data["json"] = response
+	this.ServeJSON()
 }
 
-func (c *BaseController) ResponseOk(data any) {
+func (this *BaseController) ResponseOk(data any) {
 	statusCode := http.StatusOK
-	c.Ctx.Output.SetStatus(statusCode)
-	c.Ctx.Output.Header("Content-Type", "application/json")
+	this.Ctx.Output.SetStatus(statusCode)
+	this.Ctx.Output.Header("Content-Type", "application/json")
 	response := Response{
 		Code: statusCode,
 		Data: data,
 	}
-	c.Data["json"] = response
-	c.ServeJSON()
+	this.Data["json"] = response
+	this.ServeJSON()
 }
