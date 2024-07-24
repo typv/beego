@@ -7,11 +7,8 @@ import (
 
 func GetEnv(envKey string, defaultValue string) string {
 	godotenv.Load()
-
-	val := os.Getenv(envKey)
-	if val == "" {
-		val = defaultValue
+	if value, exists := os.LookupEnv(envKey); exists {
+		return value
 	}
-
-	return val
+	return defaultValue
 }

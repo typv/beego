@@ -3,6 +3,7 @@ package routers
 import (
 	"github.com/beego/beego/v2/server/web"
 	"src/controllers"
+	"src/filters"
 )
 
 func init() {
@@ -16,4 +17,10 @@ func init() {
 	)
 
 	web.AddNamespace(ns)
+
+	// Public API
+	web.InsertFilter("/", web.BeforeRouter, filters.PublicFilter) // Home route
+
+	// Apply JWT filter
+	web.InsertFilter("*", web.BeforeRouter, filters.JWTAuthFilter)
 }
