@@ -30,9 +30,9 @@ func init() {
 				errCode = http.StatusInternalServerError
 			}
 
-			response := map[string]interface{}{
-				"code":    errCode,
-				"message": errMsg,
+			response := ultils.ErrorResponse{
+				Code:    errCode,
+				Message: errMsg,
 			}
 			context.Output.Header("Content-Type", "application/json")
 			context.Output.SetStatus(errCode)
