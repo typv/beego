@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/beego/beego/v2/client/orm"
-	"net/http"
 	"src/models"
 )
 
@@ -12,10 +11,10 @@ type UserController struct {
 
 func (this *UserController) GetUser() {
 	o := orm.NewOrm()
-	u := &models.User{ID: 1}
+	u := &models.User{ID: 2}
 	err := o.Read(u)
 	if err != nil {
-		this.ResponseErr(http.StatusBadRequest, "User not found")
+		this.ResponseNotFound("User not found", nil)
 		return
 	}
 	o.LoadRelated(u, "Department")
@@ -33,7 +32,7 @@ func (this *UserController) GetUsers() {
 		Filter("id", 1).
 		All(&users, "ID", "Name", "Email")
 	if err != nil {
-		this.ResponseErr(http.StatusInternalServerError, "Internal server error")
+		this.ResponseInternalServerError(nil, nil)
 		return
 	}
 
