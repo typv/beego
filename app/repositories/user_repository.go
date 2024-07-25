@@ -4,8 +4,8 @@ import (
 	"errors"
 	"gorm.io/gorm"
 	"log"
+	"src/app/models"
 	"src/database"
-	"src/models"
 )
 
 type IUserRepository interface {

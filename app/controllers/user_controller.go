@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"src/repositories"
+	"src/app/repositories"
 )
 
 type UserController struct {

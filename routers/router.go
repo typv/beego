@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/beego/beego/v2/server/web"
-	"src/controllers"
+	"src/app/controllers"
 	"src/filters"
 )
 
