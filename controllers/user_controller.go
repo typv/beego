@@ -9,17 +9,17 @@ type UserController struct {
 	userRepo repositories.UserRepository
 }
 
-func (this *UserController) GetUsers() {
+func (uc *UserController) GetUsers() {
 	//Get auth user
-	//authUser := this.Ctx.Input.GetData("authUser").(ultils.AuthUser)
+	//authUser := uc.Ctx.Input.GetData("authUser").(ultils.AuthUser)
 	//fmt.Println(authUser.Email)
 
-	users := this.userRepo.GetAll()
-	this.ResponseOk(users)
+	users := uc.userRepo.GetAll()
+	uc.ResponseOk(users)
 }
 
-func (this *UserController) GetUser() {
-	user := this.userRepo.FindById(1)
+func (uc *UserController) GetUser() {
+	user := uc.userRepo.FindById(1)
 
-	this.ResponseOk(user)
+	uc.ResponseOk(user)
 }

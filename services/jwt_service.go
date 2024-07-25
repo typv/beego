@@ -32,7 +32,7 @@ func NewJwtService() IJwtService {
 	return &JwtService{}
 }
 
-func (this *JwtService) Sign(token string) (*jwt.Token, error, ultils.AuthUser) {
+func (jwtS *JwtService) Sign(token string) (*jwt.Token, error, ultils.AuthUser) {
 	var authUser ultils.AuthUser
 	singedToken, err := jwt.ParseWithClaims(token, &authUser, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -44,7 +44,7 @@ func (this *JwtService) Sign(token string) (*jwt.Token, error, ultils.AuthUser) 
 	return singedToken, err, authUser
 }
 
-func (this *JwtService) Claims(data map[string]interface{}) (string, error) {
+func (jwtS *JwtService) Claims(data map[string]interface{}) (string, error) {
 	claims := jwt.MapClaims{}
 	for key, value := range data {
 		claims[key] = value

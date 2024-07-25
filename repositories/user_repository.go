@@ -21,7 +21,7 @@ func NewUserRepository() IUserRepository {
 	return &UserRepository{}
 }
 
-func (this UserRepository) GetAll() *[]models.User {
+func (ur UserRepository) GetAll() *[]models.User {
 	results := new([]models.User)
 	err := database.DB.Model(new(models.User)).Find(results).Error
 	if err != nil {
