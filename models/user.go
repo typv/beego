@@ -1,23 +1,19 @@
 package models
 
 import (
-	"github.com/beego/beego/v2/client/orm"
-	_ "github.com/lib/pq"
+	"time"
 )
 
 type User struct {
-	ID         int         `orm:"column(id);pk"`
-	Name       string      `orm:"column(name)"`
-	Email      string      `orm:"column(email)"`
-	Password   string      `orm:"column(password);null"`
-	DeletedAt  string      `orm:"column(deleted_at);auto_now;type(datetime);null"`
-	Department *Department `orm:"rel(fk);column(department_id);null"`
+	ID           uint        `gorm:"primaryKey"`
+	DepartmentID *uint       `gorm:"column:department_id"`
+	Name         string      `gorm:"column:name"`
+	Email        string      `gorm:"column:email"`
+	Password     *string     `gorm:"column:password" json:"-"`
+	DeletedAt    *time.Time  `gorm:"column:deleted_at" json:"-"`
+	Department   *Department `gorm:"foreignKey:DepartmentID" json:"Department,omitempty"`
 }
 
-func (u *User) TableName() string {
+func (User) TableName() string {
 	return "users"
-}
-
-func init() {
-	orm.RegisterModel(new(User))
 }
