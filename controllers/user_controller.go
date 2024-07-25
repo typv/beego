@@ -1,12 +1,13 @@
 package controllers
 
 import (
-	"github.com/beego/beego/v2/client/orm"
 	"src/models"
+	"src/repositories"
 )
 
 type UserController struct {
 	BaseController
+	userRepo repositories.UserRepository
 }
 
 func (this *UserController) GetUsers() {
@@ -14,31 +15,15 @@ func (this *UserController) GetUsers() {
 	//authUser := this.Ctx.Input.GetData("authUser").(ultils.AuthUser)
 	//fmt.Println(authUser.Email)
 
-	var users []models.User
-	o := orm.NewOrm()
-	qs := o.QueryTable(new(models.User))
-
-	_, err := qs.
-		RelatedSel("Department").
-		Filter("id", 1).
-		All(&users, "ID", "Name", "Email")
-	if err != nil {
-		this.ResponseInternalServerError(nil, nil)
-		return
-	}
+	var users *[]models.User
+	users, _ = this.userRepo.GetAll()
 
 	this.ResponseOk(users)
 }
 
 func (this *UserController) GetUser() {
-	o := orm.NewOrm()
-	u := &models.User{ID: 1}
-	err := o.Read(u)
-	if err != nil {
-		this.ResponseNotFound("User not found", nil)
-		return
-	}
-	o.LoadRelated(u, "Department")
+	var user *models.User
+	user, _ = this.userRepo.FindById(1)
 
-	this.ResponseOk(u)
+	this.ResponseOk(user)
 }

@@ -11,7 +11,7 @@ type User struct {
 	Email      string      `orm:"column(email)"`
 	Password   string      `orm:"column(password);null"`
 	DeletedAt  string      `orm:"column(deleted_at);auto_now;type(datetime);null"`
-	Department *Department `orm:"rel(fk);column(department_id)"`
+	Department *Department `orm:"rel(fk);column(department_id);null"`
 }
 
 func (u *User) TableName() string {

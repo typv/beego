@@ -8,7 +8,7 @@ import (
 type Department struct {
 	ID    int     `orm:"column(id);pk"`
 	Name  string  `orm:"column(name)"`
-	Users []*User `orm:"reverse(many)"`
+	Users []*User `orm:"reverse(many);null"`
 }
 
 func (u *Department) TableName() string {
