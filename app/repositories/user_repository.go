@@ -22,14 +22,12 @@ func NewUserRepository() IUserRepository {
 }
 
 func (ur UserRepository) GetAll() *[]models.User {
-	results := new([]models.User)
-	err := database.DB.Model(new(models.User)).Find(results).Error
-	if err != nil {
-		if !(errors.Is(err, gorm.ErrRecordNotFound)) {
-			log.Printf("UserRepository.GetAll: Database error: %v", err)
-			panic("Internal service error")
-		}
-		results = nil
+	results := make([]models.User, 0)
+	err := database.DB.Model(&models.User{}).Find(&results).Error
+	if err != nil && !(errors.Is(err, gorm.ErrRecordNotFound)) {
+		log.Printf("UserRepository.GetAll: Database error: %v", err)
+		panic("Internal service error")
 	}
-	return results
+
+	return &results
 }
