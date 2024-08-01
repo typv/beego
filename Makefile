@@ -10,7 +10,7 @@ restart:
 	docker-compose restart
 stop:
 	docker-compose stop
-app:
+go:
 	docker-compose exec app sh
 db:
 	docker-compose exec db sh

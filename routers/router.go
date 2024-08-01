@@ -20,6 +20,7 @@ func init() {
 
 	// Public API
 	web.InsertFilter("/", web.BeforeRouter, filters.PublicFilter) // Home route
+	web.InsertFilter("/v1/users", web.BeforeRouter, filters.PublicFilter)
 
 	// Apply JWT filter
 	web.InsertFilter("*", web.BeforeRouter, filters.JWTAuthFilter)

@@ -33,9 +33,67 @@ services:
       - POSTGRES_DB=${DB_DATABASE}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     restart: unless-stopped
+  zookeeper:
+    image: bitnami/zookeeper:3.9
+    container_name: beego_zookeeper_local
+    ports:
+      - "2182:2181"
+    volumes:
+      - ./.docker/zookeeper_data:/bitnami
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    restart: unless-stopped
+    networks:
+      - beego_network
+  kafka:
+    image: bitnami/kafka:3.4.1
+    container_name: beego_kafka_local
+    volumes:
+      - ./.docker/kafka_data:/bitnami
+    ports:
+      - "9093:9092"
+    environment:
+      - KAFKA_BROKER_ID:1
+      - KAFKA_ADVERTISED_LISTENERS:PLAINTEXT=//kafka:9092,PLAINTEXT_HOST://localhost:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=${ZOOKEEPER_HOST}:${ZOOKEEPER_PORT}
+      - KAFKA_CLIENT_USERS=root
+      - KAFKA_CLIENT_PASSWORDS=secret
+      - KAFKA_ZOOKEEPER_USER=root
+      - KAFKA_ZOOKEEPER_PASSWORD=secret
+    restart: unless-stopped
+    networks:
+      - beego_network
+    depends_on:
+      - zookeeper
+  kafka_ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: beego_kafka_ui_local
+    ports:
+      - "9001:8080"
+    environment:
+      - DYNAMIC_CONFIG_ENABLED=true
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=${ZOOKEEPER_HOST}:${ZOOKEEPER_PORT}
+      - KAFKA_BROKERCONNECT=kafka:9092
+    restart: unless-stopped
+    networks:
+      - beego_network
+    depends_on:
+      - kafka
 volumes:
   postgres-data:
+    driver: local
+  kafka_data:
+    driver: local
+  zookeeper_data:
+    driver: local
 
 networks:
   beego_network:
     driver: bridge
+    external: true
