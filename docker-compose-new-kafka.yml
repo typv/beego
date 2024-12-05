@@ -33,4 +33,3 @@ services:
 
 networks:
   kafka_network:
-    external: true
